@@ -1,8 +1,10 @@
 extends CharacterBody2D
 
-var move_speed = 130
-var acceleration = 900
-var friction = 900
+@export var move_speed = 130
+@export var acceleration = 900
+@export var friction = 900
+@export var jump_strength = 100
+@export var gravity = 200
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
@@ -22,8 +24,8 @@ func move(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, delta * friction)
 		
-	var direction_vertical = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
-	if abs(direction_vertical) > 0:
-		velocity.y = move_toward(velocity.y, direction_vertical * move_speed, delta * acceleration)
-	else:
-		velocity.y = move_toward(velocity.y, 0.0, delta * friction)
+	if Input.is_action_just_pressed("move_up") and is_on_floor():
+		velocity.y = -jump_strength
+		
+	if not is_on_floor():
+		velocity.y += gravity * delta

@@ -1,15 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://dh3mynk6h7ue8"]
+[gd_scene load_steps=6 format=3 uid="uid://dh3mynk6h7ue8"]
 
 [ext_resource type="Texture2D" uid="uid://dahf6dh7dee3x" path="res://Player-Sheet.png" id="1_py7x4"]
 [ext_resource type="Script" uid="uid://cc38ygiu0hwr4" path="res://player.gd" id="1_rhs2r"]
+[ext_resource type="Texture2D" uid="uid://c1t0tar50d14y" path="res://icon.svg" id="3_5n4xb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5n4xb"]
 size = Vector2(11, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xn12p"]
+size = Vector2(309, 8)
 
 [node name="TinyExplorer" type="Node2D"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(18, 74)
+collision_mask = 2
 script = ExtResource("1_rhs2r")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
@@ -19,3 +24,16 @@ hframes = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-1.5, 0)
 shape = SubResource("RectangleShape2D_5n4xb")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(15, 94)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(150.5, 0)
+shape = SubResource("RectangleShape2D_xn12p")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(150.25, 0)
+scale = Vector2(2.4179688, 0.0625)
+texture = ExtResource("3_5n4xb")
