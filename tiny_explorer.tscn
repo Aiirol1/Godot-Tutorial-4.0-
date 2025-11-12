@@ -1,11 +1,50 @@
-[gd_scene load_steps=6 format=3 uid="uid://dh3mynk6h7ue8"]
+[gd_scene load_steps=9 format=3 uid="uid://dh3mynk6h7ue8"]
 
-[ext_resource type="Texture2D" uid="uid://dahf6dh7dee3x" path="res://Player-Sheet.png" id="1_py7x4"]
-[ext_resource type="Script" uid="uid://cc38ygiu0hwr4" path="res://player.gd" id="1_rhs2r"]
-[ext_resource type="Texture2D" uid="uid://c1t0tar50d14y" path="res://icon.svg" id="3_5n4xb"]
+[ext_resource type="Script" uid="uid://cc38ygiu0hwr4" path="res://player.gd" id="2_pjr2s"]
+[ext_resource type="Texture2D" uid="uid://dahf6dh7dee3x" path="res://Player-Sheet.png" id="4_6pytk"]
+[ext_resource type="Texture2D" uid="uid://c1t0tar50d14y" path="res://icon.svg" id="5_pjr2s"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5n4xb"]
-size = Vector2(11, 16)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pjr2s"]
+size = Vector2(10, 16)
+
+[sub_resource type="Animation" id="Animation_xn12p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_5n4xb"]
+resource_name = "walk"
+length = 0.3
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pjr2s"]
+_data = {
+&"RESET": SubResource("Animation_xn12p"),
+&"walk": SubResource("Animation_5n4xb")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xn12p"]
 size = Vector2(309, 8)
@@ -13,17 +52,21 @@ size = Vector2(309, 8)
 [node name="TinyExplorer" type="Node2D"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(18, 74)
 collision_mask = 2
-script = ExtResource("1_rhs2r")
-
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-texture = ExtResource("1_py7x4")
-hframes = 3
+script = ExtResource("2_pjr2s")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(-1.5, 0)
-shape = SubResource("RectangleShape2D_5n4xb")
+position = Vector2(-2, 0)
+shape = SubResource("RectangleShape2D_pjr2s")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("4_6pytk")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+libraries = {
+&"": SubResource("AnimationLibrary_pjr2s")
+}
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(15, 94)
@@ -36,4 +79,4 @@ shape = SubResource("RectangleShape2D_xn12p")
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 position = Vector2(150.25, 0)
 scale = Vector2(2.4179688, 0.0625)
-texture = ExtResource("3_5n4xb")
+texture = ExtResource("5_pjr2s")
